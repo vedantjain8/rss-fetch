@@ -1,0 +1,6 @@
+min_articles_to_retain_per_website: 30
+refresh_time_interval: 3600 #in seconds
+
+sites:
+  raspberrypi: https://www.raspberrypi.com/news/feed/
+  linuxserver: https://www.linuxserver.io/blog.rss
