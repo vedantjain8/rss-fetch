@@ -61,8 +61,3 @@ def get_posts_details(rss=None):
         return posts_details,postCount  # returning the details which is dictionary
     else:
         return None
-
-if __name__=="__main__":
-    feedURL= "https://blog.networkprofile.org/rss/"
-    postDetails,postCount = get_posts_details(rss=feedURL)
-    print(postDetails)
