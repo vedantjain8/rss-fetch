@@ -1,52 +1,59 @@
-import rss_site
 import sqlite3
 import os
+import mylog
+from myyaml import yamldef
 
 
 db = sqlite3.connect("rss.db")
 curr = db.cursor()
 
 def dropAllSQLtable():
-    for i in rss_site.siteDict:
-        site_name = str(rss_site.siteDict.get(i)[1].title())  # site name
-        curr.execute(f"drop table {site_name};")
+    for siteI in yamldef()['sites']:
+            site_name = str(siteI)
+            curr.execute(f"drop table {site_name};")
+            mylog.logDef(loggLevel='info', logMSG=f"droped table {site_name}")
     db.commit()
 
 def dropAllSQLtableTrigger():
     try:
-        for i in rss_site.siteDict:
-            site_name = str(rss_site.siteDict.get(i)[1].title())  # site name
+        for siteI in yamldef()['sites']:
+            site_name = str(siteI)
             curr.execute(f"drop trigger oldPost_delete_{site_name};")
+            mylog.logDef(loggLevel='info', logMSG=f"droped sqltable oldPost_delete trigger for {site_name}")
         db.commit()
     except:
+        mylog.logDef(loggLevel='info', logMSG=f"failed to drop sqltable oldPost_delete trigger for {site_name}")
         pass
 
 def dropSpecificSQLtableTrigger(site_name):
     curr.execute(f"drop trigger oldPost_delete_{site_name};")
     db.commit()
+    mylog.logDef(loggLevel='info', logMSG=f"droped sqltable oldPost_delete trigger for {site_name}")
 
 def dropSpecificSQLtable(site_name):
     curr.execute(f"drop table {site_name};")
     db.commit()
+    mylog.logDef(loggLevel='info', logMSG=f"droped sqltable {site_name}")
 
 
 def listAllSQLtable():
     print("\n\n")
-    for i in rss_site.siteDict:
-        site_name = str(rss_site.siteDict.get(i)[1].title())  # site name
-        print(site_name)
+    for siteI in yamldef()['sites']:
+            site_name = str(siteI)  # site name
+            print(site_name)
     db.commit()
 
 def countTable():
     print("\n\n")
     siteCount =0
-    for i in rss_site.siteDict:
+    for i in yamldef()['sites']:
         siteCount +=1
     print(siteCount)
 
 def nuke():
     db.close()
     os.system("del rss.db")
+    mylog.logDef(loggLevel='info', logMSG=f"WoH! I hope you were sure for the nuke")
 
 if __name__=="__main__":
     while True:
