@@ -13,16 +13,16 @@ Table of Content
 ### Installation
 1. git clone https://github.com/vedantjain8/rss-fetch.git
 2. cd rss-fetch
-3. Edit rss_site.py to add site for rss fetching
+3. Edit Userdata.yaml to add site for rss fetching
 <br>
 
 ### Run
 `python3 -m main.py`
-> This will fetch rss details from all sites listed in rss_site
+> This will fetch rss details from all sites listed in Userdata.yaml
 
    -- OR --
 
-`python3 -m main.py -k <key from rss_site>`
+`python3 -m main.py -k <key from Userdata.yaml>`
 > This will fetch rss details for the given site
 
 <br>
@@ -34,7 +34,7 @@ options:
 | Key               | Message                         |
 | ----------------- | ------------------------------- |
 | -h, --help        | Show this help message and exit |
-| -k KEY, --Key KEY | Key from rss_site               |
+| -k KEY, --Key KEY | Key from Userdata.yaml               |
 <br>
 
 ### Warnings
@@ -43,6 +43,8 @@ options:
 <br>
 
 ### TODO
-~~add unique searching for onyl one site~~
-sqlite database to webapp i.e. frontend
-add parralel searching
+[x] add unique searching for onyl one site
+[ ] sqlite database to webapp i.e. frontend
+[ ] add parralel searching
+[ ] add exception for everything
+[ ] notification
