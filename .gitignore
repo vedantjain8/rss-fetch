@@ -1,5 +1,6 @@
 test.*
+temp.*
 __pycache__/*
 logs/*
-rss
+venv
 rss.db
