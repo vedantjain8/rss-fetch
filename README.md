@@ -34,7 +34,7 @@ options:
 | Key               | Message                         |
 | ----------------- | ------------------------------- |
 | -h, --help        | Show this help message and exit |
-| -k KEY, --Key KEY | Key from Userdata.yaml               |
+| -k KEY, --Key KEY | Key from Userdata.yaml          |
 <br>
 
 ### Warnings
@@ -44,7 +44,15 @@ options:
 
 ### TODO
 [x] add unique searching for onyl one site
-[ ] sqlite database to webapp i.e. frontend
-[ ] add parralel searching
-[ ] add exception for everything
-[ ] notification
+
+[x] sqlite database to webapp i.e. frontend
+
+[] run webserver while running main.py
+
+[] lazy loading
+
+[] add parralel searching
+
+[] add exception for everything
+
+[] notification
