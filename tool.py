@@ -110,11 +110,3 @@ select * from rss_data;
             break
         else:
             print("Enter a valid option!")
-
-# .open rss.db
-# .mode csv
-# .header on
-# .mode csv
-# .output data.csv
-# select * from rss_data;
-# .quit
