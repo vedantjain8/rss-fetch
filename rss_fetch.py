@@ -8,6 +8,7 @@ def get_posts_details(rss=None):
         try:
             import feedparser
             import os
+            from link_preview import link_preview
         except:
             os.system("pip install -r requirements.txt")
         import re
@@ -31,7 +32,7 @@ def get_posts_details(rss=None):
                 if post.id == "" or post.id == " " or post.id == None:
                     pass
                 else:
-                    temp["author"]= temp["summary"] = temp["pub_day"] =temp["pub_date"]=temp["pub_month"]=temp["pub_year"]=temp["pub_time"]= " " 
+                    temp["author"]= temp["summary"] = temp["pub_day"] =temp["pub_date"]=temp["pub_month"]=temp["pub_year"]=temp["pub_time"]= temp["image"]=" " 
                     temp["id"] = post.id 
                     temp["title"] = post.title #post title
                     try:
@@ -44,6 +45,16 @@ def get_posts_details(rss=None):
                     temp["pub_month"] = post.published.split(" ")[2]
                     temp["pub_year"] = post.published.split(" ")[3]
                     temp["pub_time"] = post.published.split(" ")[4:-1]
+                    try:
+                        dict_elem = link_preview.generate_dict(temp["link"])
+                        if str(dict_elem["image"]).endswith(".jpg") or str(dict_elem["image"]).endswith(".png") or str(dict_elem["image"]).endswith(".jpeg"):
+                            temp["image"] = dict_elem['image']
+                            # print(temp["image"])
+                        else:
+                            temp["image"] = " "
+                    except:
+                        temp["image"] = " "
+
                     # temp["tags"] = [tag.term for tag in post.tags] #output in list
                     # temp["tags"] = ' '.join([str(elem+"↑") for elem in [tag.term for tag in post.tags]]) #output in string #working
                     # temp["summary"] = re.sub("\n", "", re.sub('<[^<]+?>', '', post.summary).replace("&#8230;", "... ")) # full summary
