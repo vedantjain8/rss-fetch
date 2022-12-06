@@ -66,6 +66,7 @@ if __name__=="__main__":
             5. Drop oldPost_delete trigger for all tables 
             6. Count all tables 
             7. Nuke - Delete rss.db
+            8. Export to csv
             99. Exit \n\nEnter your choice: """))
 
         if choice == 1:
@@ -95,7 +96,25 @@ if __name__=="__main__":
                     | ;  :|     
             _____.,-#%&$@%#&#~,._____
             """)
+        elif choice == 8:
+            print("""\n
+.open rss.db
+.mode csv
+.header on
+.mode csv
+.output data.csv
+select * from rss_data;
+.quit
+""")    
         elif choice == 99:
             break
         else:
             print("Enter a valid option!")
+
+# .open rss.db
+# .mode csv
+# .header on
+# .mode csv
+# .output data.csv
+# select * from rss_data;
+# .quit
