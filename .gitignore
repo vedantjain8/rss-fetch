@@ -4,3 +4,4 @@ __pycache__/*
 logs/*
 venv
 rss.db
+template/snippet.txt
