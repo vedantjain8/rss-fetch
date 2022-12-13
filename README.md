@@ -43,16 +43,12 @@ options:
 <br>
 
 ### TODO
-[x] add unique searching for onyl one site
-
-[x] sqlite database to webapp i.e. frontend
-
-[] run webserver while running main.py
-
-[] lazy loading
-
-[] add parralel searching
-
-[] add exception for everything
-
-[] notification
+- [x] Add unique searching for onyl one site
+- [x] Sqlite database to webapp i.e. frontend
+- [x] Sort post on latest and oldest
+- [x] Lazy loading
+- [ ] Run webserver while running main.py
+- [ ] Add parralel searching
+- [ ] Add exception for everything
+- [ ] Notification
+- [ ] Site Name, Maybe you could suggest me somename 
