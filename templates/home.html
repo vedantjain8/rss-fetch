@@ -2,6 +2,10 @@
 
 <div class="container" style="margin-top: 50px">
   <div class="row">
+    <button id="previousBTNid" onclick="previousPageNumber()">
+      Previous page
+    </button>
+    <button id="nextBTNid" onclick="nextPageNumber()">Next page</button>
     <ul class="pagination col text-end align-self-end">
       <li class="page-item">
         <a class="page-link" href="#" aria-label="Previous"
@@ -89,11 +93,17 @@
             <p class="card-text">{{ post.summary }}</p>
             <p class="card-text">
               <small class="text-muted">
-                {% if " " not in post.date_posted and " " not in post.author %}
-                <p>By {{ post.author }} on {{ post.date_posted }}</p>
+                {% if " " not in post.pub_day and " " not in post.author %}
+                <p>
+                  By {{ post.author }} On {{ post.pub_day }} {{ post.pub_date }}
+                  {{ post.pub_month }} {{ post.pub_year }}
+                </p>
 
-                {% elif " " not in post.date_posted %}
-                <p>On {{ post.date_posted }}</p>
+                {% elif " " not in post.pub_day %}
+                <p>
+                  On {{ post.pub_day }} {{ post.pub_date }} {{ post.pub_month }}
+                  {{ post.pub_year }}
+                </p>
 
                 {% elif " " not in post.author %}
                 <p>By {{ post.author }}</p>
@@ -137,4 +147,46 @@
     </ul>
   </div>
 </div>
+
+<script>
+  // Get the current URL
+  var currentURL = window.location.href;
+
+  // Extract the page number from the URL
+  var pageNumber = parseInt(currentURL.split("/")[5]);
+  var sortingType = currentURL.split("/")[3];
+
+  var previousbutton = document.getElementById("previousBTNid");
+  var nextbutton = document.getElementById("nextBTNid");
+
+  if (pageNumber === 1) {
+    previousbutton.disabled = true;
+  }
+
+  if (pageNumber === {{ total_pages }}) {
+        nextbutton.disabled = true;
+    }
+
+  function previousPageNumber() {
+    // Construct the new URL with the updated page number
+    var newURL = currentURL.replace(
+      "/" + sortingType + "/page/" + pageNumber,
+      "/" + sortingType + "/page/" + (pageNumber - 1)
+    );
+
+    // Update the URL in the browser
+    window.location.href = newURL;
+  }
+
+  function nextPageNumber() {
+    // Construct the new URL with the updated page number
+    var newURL = currentURL.replace(
+      "/" + sortingType + "/page/" + pageNumber,
+      "/" + sortingType + "/page/" + (pageNumber + 1)
+    );
+
+    // Update the URL in the browser
+    window.location.href = newURL;
+  }
+</script>
 {% endblock HtmlbodyContent%}
