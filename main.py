@@ -1,10 +1,6 @@
-import rss_fetch,sqlite3,os,datetime,time,re,argparse,mylog
+import rss_fetch,sqlite3,os,datetime,time,argparse,mylog
+from modules import cleanString
 from myyaml import yamldef
-
-def cleanString(s):
-        r = re.sub(r'[^\w]', ' ', s)
-        s = re.sub(' +', ' ', r)
-        return str(s)
 
 def dumpp():
     start = time.time()
