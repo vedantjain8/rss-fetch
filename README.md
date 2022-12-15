@@ -6,6 +6,8 @@ Table of Content
 - [RSS-fetch](#rss-fetch)
     - [Installation](#installation)
     - [Run](#run)
+      - [Only to fetch rss data](#only-to-fetch-rss-data)
+      - [Run web server](#run-web-server)
     - [Usage](#usage)
     - [Warnings](#warnings)
     - [TODO](#todo)
@@ -17,6 +19,7 @@ Table of Content
 <br>
 
 ### Run
+#### Only to fetch rss data
 `python3 -m main.py`
 > This will fetch rss details from all sites listed in Userdata.yaml
 
@@ -25,6 +28,11 @@ Table of Content
 `python3 -m main.py -k <key from Userdata.yaml>`
 > This will fetch rss details for the given site
 
+#### Run web server
+`python3 -m flask_main.py`
+> This will start flask webserver on port 5000
+> Visit http://ip:5000/fetch_data this will fetch rss data in background
+> *Currently there is none progress bar to check the status
 <br>
 
 ### Usage
@@ -47,7 +55,9 @@ options:
 - [x] Sqlite database to webapp i.e. frontend
 - [x] Sort post on latest and oldest
 - [x] Lazy loading
-- [ ] Run webserver while running main.py
+- [x] Run webserver while running main.py
+- [ ] sort by oldest post is giving me trouble
+- [ ] pagination button setup
 - [ ] Add parralel searching
 - [ ] Add exception for everything
 - [ ] Notification
