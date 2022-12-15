@@ -1,7 +1,10 @@
-from flask import Flask,render_template, url_for,request
+from flask import Flask,render_template, url_for,request,flash,redirect
 import sqlite3
+from main import dumpp
+from multiprocessing import Process
 
 app = Flask(__name__)
+app.config['SECRET_KEY']='Define_The_Key'
 
 @app.route("/")
 @app.route("/home")
@@ -27,17 +30,20 @@ def sortLatest(page=1):
     offset = (page - 1) * 10
 
     # Query the database for the results for the current page
-    results = cur.execute(f'select id,title,link,summary,pub_date,pub_month,pub_year,site,author,image from rss_data order by time asc, pub_day asc,pub_month asc,pub_year asc LIMIT 10 OFFSET {offset}').fetchall()
+    results = cur.execute(f'select id,title,link,summary,pub_day,pub_date,pub_month,pub_year,site,author,image from rss_data order by time asc,pub_month asc,pub_year asc LIMIT 10 OFFSET {offset}').fetchall()
     
     for j in range(len(results)):
         temp["id"] = results[j][0]
         temp["title"] = results[j][1]
         temp["link"] = results[j][2]
         temp["summary"] = results[j][3]
-        temp["date_posted"] = results[j][4] + results[j][5]+ results[j][6]
-        temp["site"] = results[j][7][0].upper() + results[j][7][1:]
-        temp["author"] = results[j][8]
-        temp["image"] = results[j][9]
+        temp["pub_day"] = results[j][4]
+        temp["pub_date"] = results[j][5]
+        temp["pub_month"] = results[j][6]
+        temp["pub_year"] = results[j][7]
+        temp["site"] = results[j][8][0].upper() + results[j][8][1:]
+        temp["author"] = results[j][9]
+        temp["image"] = results[j][10]
         post.append(temp)
         temp = dict()
 
@@ -72,17 +78,20 @@ def SortOldest(page=1):
     offset = (page - 1) * 10
 
     # Query the database for the results for the current page
-    results = cur.execute(f'select id,title,link,summary,pub_date,pub_month,pub_year,site,author,image from rss_data order by time desc, pub_day desc,pub_month desc,pub_year desc LIMIT 10 OFFSET {offset}').fetchall()
+    results = cur.execute(f'select id,title,link,summary,pub_day,pub_date,pub_month,pub_year,site,author,image from rss_data GROUP BY pub_year, pub_month order by time desc,pub_date desc ,pub_month desc,pub_year desc LIMIT 10 OFFSET {offset}').fetchall()
 
     for j in range(len(results)):
         temp["id"] = results[j][0]
         temp["title"] = results[j][1]
         temp["link"] = results[j][2]
         temp["summary"] = results[j][3]
-        temp["date_posted"] = results[j][4] + results[j][5]+ results[j][6]
-        temp["site"] = results[j][7][0].upper() + results[j][7][1:]
-        temp["author"] = results[j][8]
-        temp["image"] = results[j][9]
+        temp["pub_day"] = results[j][4]
+        temp["pub_date"] = results[j][5]
+        temp["pub_month"] = results[j][6]
+        temp["pub_year"] = results[j][7]
+        temp["site"] = results[j][8][0].upper() + results[j][8][1:]
+        temp["author"] = results[j][9]
+        temp["image"] = results[j][10]
         post.append(temp)
         temp = dict()
 
@@ -100,6 +109,14 @@ def SortOldest(page=1):
 @app.route("/about")
 def about():
     return render_template('about.html',title = "About")
+
+@app.route('/fetch_data')
+def fetch_data():
+    print("starting the main.py")
+    p = Process(target=dumpp)
+    p.start()
+    # subprocess.run(["python", "main.py"])
+    return redirect('/')
 
 @app.errorhandler(404)
 def not_found(e):
