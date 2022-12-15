@@ -65,7 +65,7 @@ if __name__=="__main__":
             4. Drop specific trigger 
             5. Drop oldPost_delete trigger for all tables 
             6. Count all tables 
-            7. Nuke - Delete rss.db
+            7. Nuke - Delete unnecessary files
             8. Export to csv
             99. Exit \n\nEnter your choice: """))
 
@@ -82,7 +82,6 @@ if __name__=="__main__":
         elif choice == 6:
             countTable()
         elif choice == 7:
-            nuke()
             print("""
                 _.-^^---....,,--       
             _--                  --_  
@@ -96,6 +95,13 @@ if __name__=="__main__":
                     | ;  :|     
             _____.,-#%&$@%#&#~,._____
             """)
+            nuke()
+            try:
+                os.system("del /s /q logs")
+                del mylog
+                break
+            except:
+                print("del /s /q logs")
         elif choice == 8:
             print("""\n
 .open rss.db
