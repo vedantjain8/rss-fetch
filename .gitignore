@@ -1,5 +1,5 @@
-test.*
-temp.*
+test*.*
+temp*.*
 __pycache__/*
 logs/*
 venv
