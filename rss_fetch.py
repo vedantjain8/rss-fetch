@@ -8,15 +8,14 @@ def get_posts_details(rss=None):
         try:
             import feedparser
             import os
-            from link_preview import link_preview
             from bs4 import BeautifulSoup as BSHTML
             from modules import listToString
+            import re
         except:
             os.system("pip install -r requirements.txt")
-        import re
 
         # parsing blog feed
-        blog_feed = blog_feed = feedparser.parse(rss)
+        blog_feed = feedparser.parse(rss)
         postCount = 0
 
         # getting lists of blog entries via .entries
@@ -34,7 +33,7 @@ def get_posts_details(rss=None):
                 if post.id == "" or post.id == " " or post.id == None:
                     pass
                 else:
-                    temp["author"]= temp["summary"] = temp["pub_day"] =temp["pub_date"]=temp["pub_month"]=temp["pub_year"]=temp["pub_time"]= temp["image"]=" " 
+                    temp["author"]= temp["summary"] = temp["pub_day"] =temp["pub_date"]=temp["pub_month"]=temp["pub_year"]=temp["pub_time"]= " " 
                     
                     temp["id"] = post.id 
                     
@@ -44,8 +43,6 @@ def get_posts_details(rss=None):
                         temp["link"] = post.link.split("/?utm_source")[0]
                     except:
                         temp["link"] = post.link
-                    
-                    dict_elem = link_preview.generate_dict(temp["link"])
 
                     temp["author"] = post.author
                     
@@ -59,34 +56,7 @@ def get_posts_details(rss=None):
                     
                     temp["pub_time"] = post.published.split(" ")[4:-1]
                     
-                    
-                    try: #image
-                        try:
-                            soup = BSHTML(post.summary, "lxml")
-                            images = soup.findAll('img')
-                            for image in images:
-                                temp["image"] = image['src']
-                            
-                        except:
-                            if str(dict_elem["image"]).endswith(".jpg") or str(dict_elem["image"]).endswith(".png") or str(dict_elem["image"]).endswith(".jpeg"):
-                                temp["image"] = dict_elem['image']      
-                    except:
-                        try:
-                            if 'media_content' in post:
-                                # Loop through all the 'media_content' elements
-                                mediaCount = 0
-                                for media in post.media_content:
-                                    # Check if the 'medium' attribute of the element is 'image'
-                                    if media.get('medium') == 'image':
-                                        # Print the URL of the preview image
-                                        temp["image"] = media.get('url')
-                                        # print(media.get('url'))
-                                        mediaCount +=1
-                                    
-                                    if mediaCount ==1:
-                                        break
-                        except:
-                            temp["image"] = " "
+                    soup = BSHTML(post.summary, "lxml")
 
                     # temp["tags"] = [tag.term for tag in post.tags] #output in list
                     # temp["tags"] = ' '.join([str(elem+"↑") for elem in [tag.term for tag in post.tags]]) #output in string #working
@@ -95,7 +65,6 @@ def get_posts_details(rss=None):
                     try: #summary
                     # temp["summary"] = re.sub("\n", "", re.sub('<[^<]+?>', '', post.summary).replace("&#8230;", "... ")) # full summary
                         try:
-                            soup = BSHTML(post.summary, "lxml")
                             temp["summary"] = (str(re.sub("\n", "", re.sub('<[^<]+?>', '', " ".join(str(listToString(str(soup.findAll('p'))).strip().replace("[","")).split(" ",15)[0:15])).replace(",", "").replace('"', '').replace("'", "")) + "..."))  #summary upto 15 words
                         except:
                             temp["summary"] = str(re.sub("\n", "", re.sub('<[^<]+?>', '', " ".join(str(t) for t in post.summary.split(" ",15)[0:15])).replace(",", "").replace('"', '').replace("'", "")) + "...")  #summary upto 15 words

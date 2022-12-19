@@ -8,6 +8,9 @@ app.config['SECRET_KEY']='Define_The_Key'
 
 @app.route("/")
 @app.route("/home")
+def default():
+    return redirect('/sortlatest/page/1')
+    
 @app.route("/sortlatest/page/<int:page>")
 def sortLatest(page=1):
     db = sqlite3.connect("rss.db")
@@ -15,6 +18,7 @@ def sortLatest(page=1):
 
     temp = dict()
     post = []
+    perpage_site = 15
 
     # Get the total number of rows in the table
     total_rows = cur.execute('SELECT COUNT(*) FROM rss_data').fetchone()[0]
@@ -30,7 +34,7 @@ def sortLatest(page=1):
     offset = (page - 1) * 10
 
     # Query the database for the results for the current page
-    results = cur.execute(f'select id,title,link,summary,pub_day,pub_date,pub_month,pub_year,site,author,image from rss_data order by time asc,pub_month asc,pub_year asc LIMIT 10 OFFSET {offset}').fetchall()
+    results = cur.execute(f'select id,title,link,summary,pub_day,pub_date,pub_month,pub_year,site,author from rss_data order by time asc,pub_month asc,pub_year asc LIMIT {perpage_site} OFFSET {offset}').fetchall()
     
     for j in range(len(results)):
         temp["id"] = results[j][0]
@@ -43,7 +47,6 @@ def sortLatest(page=1):
         temp["pub_year"] = results[j][7]
         temp["site"] = results[j][8][0].upper() + results[j][8][1:]
         temp["author"] = results[j][9]
-        temp["image"] = results[j][10]
         post.append(temp)
         temp = dict()
 
@@ -78,7 +81,7 @@ def SortOldest(page=1):
     offset = (page - 1) * 10
 
     # Query the database for the results for the current page
-    results = cur.execute(f'select id,title,link,summary,pub_day,pub_date,pub_month,pub_year,site,author,image from rss_data GROUP BY pub_year, pub_month order by time desc,pub_date desc ,pub_month desc,pub_year desc LIMIT 10 OFFSET {offset}').fetchall()
+    results = cur.execute(f'select id,title,link,summary,pub_day,pub_date,pub_month,pub_year,site,author from rss_data GROUP BY pub_year, pub_month order by time desc,pub_date desc ,pub_month desc,pub_year desc LIMIT 10 OFFSET {offset}').fetchall()
 
     for j in range(len(results)):
         temp["id"] = results[j][0]
@@ -91,7 +94,6 @@ def SortOldest(page=1):
         temp["pub_year"] = results[j][7]
         temp["site"] = results[j][8][0].upper() + results[j][8][1:]
         temp["author"] = results[j][9]
-        temp["image"] = results[j][10]
         post.append(temp)
         temp = dict()
 

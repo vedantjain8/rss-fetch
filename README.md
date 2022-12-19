@@ -1,4 +1,5 @@
 # RSS-fetch
+-- DISCONTINUED --
 A python script to fetch rss details from site and storing data in sqlite
 <br>
 
@@ -56,8 +57,8 @@ options:
 - [x] Sort post on latest and oldest
 - [x] Lazy loading
 - [x] Run webserver while running main.py
+- [x] pagination button setup
 - [ ] sort by oldest post is giving me trouble
-- [ ] pagination button setup
 - [ ] Add parralel searching
 - [ ] Add exception for everything
 - [ ] Notification
